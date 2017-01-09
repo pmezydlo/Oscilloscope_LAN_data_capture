@@ -7,6 +7,4 @@ Capture the data of a Rigol DS1000Z series oscilloscope by LAN only, using Pytho
 Oscilloscope LAN data capture code is released under the GPLv2 license.
 
 <h2>Images</h2>
-<img src="https://raw.githubusercontent.com/pmezydlo/Oscilloscope_LAN_data_capture/master/img/top_img.img" alt=""/>	
-
-
+<img src="https://raw.githubusercontent.com/pmezydlo/Oscilloscope_LAN_data_capture/master/img/top_img.png" alt=""/>
