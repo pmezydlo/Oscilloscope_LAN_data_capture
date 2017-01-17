@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 from telnetlib_receive_all import Telnet
 import sys
 import time
@@ -16,4 +15,4 @@ if response != 0:
     sys.exit("ERROR")
 
 print "OK"
-
+print "this is new commit"
