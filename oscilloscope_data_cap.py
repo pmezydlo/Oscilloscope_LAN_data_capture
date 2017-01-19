@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 from telnetlib_receive_all import Telnet
 from oscilloscope_functions import *
 import sys
