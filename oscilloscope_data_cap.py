@@ -9,9 +9,9 @@ import os
 port = 5555
 osc_ip = "192.168.20.15"
 
-response = os.system("ping -c 1 " + osc_ip + " > /dev/null")
+ret = os.system("ping -c 1 " + osc_ip + " > /dev/null")
 
-if response != 0:
+if ret != 0:
     print "No response ping " + osc_ip
     sys.exit("ERROR")
 
@@ -23,3 +23,11 @@ if id == "command error":
     sys.exit("ERROR")
 
 print "Instrument ID:" + id
+
+chan = []
+for channel in ["CHAN1", "CHAN2", "CHAN3", "CHAN4", "MATH"]:
+    ret = command(tn, ":" + channel + ":DISP?")
+
+    if ret == '1\n':
+        chan += [channel]
+        print channel + " is active"
