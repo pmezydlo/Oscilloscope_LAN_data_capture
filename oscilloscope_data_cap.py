@@ -2,6 +2,7 @@
 
 
 from telnetlib_receive_all import Telnet
+from oscilloscope_functions import *
 import sys
 import time
 import os
@@ -15,5 +16,11 @@ if response != 0:
     print "No response ping " + osc_ip
     sys.exit("ERROR")
 
-print "OK"
+tn = Telnet(osc_ip, port);
+id = command(tn, "*IDN?")
 
+if id == "command error":
+    print "No response for Oscilloscope"
+    sys.exit("ERROR")
+
+print "Instrument ID:" + id
