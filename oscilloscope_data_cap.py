@@ -5,6 +5,7 @@ from oscilloscope_functions import *
 import sys
 import time
 import os
+import numpy
 
 port = 5555
 osc_ip = "192.168.20.15"
@@ -50,7 +51,15 @@ for channel in chan:
     print channel + " offset value: %.4f scale value: %.4f" % (volt_offset, volt_scale)
 
     command(tn, ":WAV:POIN:MODE RAW")
-    rawdata = command(tn, ":WAV:DATA? " + channel).encode('ascii')[10:]
+    rawdata = command(tn, ":WAV:DATA? " + channel)[10:]
+    command(tn, ":KEY:FORCE")
+
     size = len(rawdata)
 
     print "Data size: %d" % size
+
+    data = numpy.frombuffer(rawdata, 'B')
+    data = data * -1 + 255
+    data = (data - 130.0 - volt_offset / volt_scale * 25) / 25 * volt_scale
+    time = numpy.linspace(time_offset - 6 * time_scale, time_offset + 6 * time_scale, num = len(data))
+    
