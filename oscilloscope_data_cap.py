@@ -22,7 +22,11 @@ if id == "command error":
     print "No response for Oscilloscope"
     sys.exit("ERROR")
 
-print "Instrument ID:" + id
+ids = id.split(',')
+print "Manufacturer: " + ids[0]
+print "Device: " + ids[1]
+print "Serial number: " + ids[2]
+print "Firmware version: " + ids[3]
 
 chan = []
 for channel in ["CHAN1", "CHAN2", "CHAN3", "CHAN4", "MATH"]:
