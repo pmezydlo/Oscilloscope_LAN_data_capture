@@ -28,6 +28,8 @@ print "Device: " + ids[1]
 print "Serial number: " + ids[2]
 print "Firmware version: " + ids[3]
 
+command(tn, ":STOP")
+
 chan = []
 for channel in ["CHAN1", "CHAN2", "CHAN3", "CHAN4", "MATH"]:
     ret = command(tn, ":" + channel + ":DISP?")
@@ -35,3 +37,20 @@ for channel in ["CHAN1", "CHAN2", "CHAN3", "CHAN4", "MATH"]:
     if ret == '1\n':
         chan += [channel]
         print channel + " is active"
+
+time_scale = float(command(tn, ":TIM:SCAL?"))
+time_offset = float(command(tn, ":TIM:OFFS?"))
+
+print "Time scale: %.4f time offset: %.8fms" % (time_scale, time_offset)
+
+for channel in chan: 
+    volt_scale = float(command(tn, ":" + channel + ":SCAL?"))
+    volt_offset = float(command(tn, ":" + channel + ":OFFS?"))
+
+    print channel + " offset value: %.4f scale value: %.4f" % (volt_offset, volt_scale)
+
+    command(tn, ":WAV:POIN:MODE RAW")
+    rawdata = command(tn, ":WAV:DATA? " + channel).encode('ascii')[10:]
+    size = len(rawdata)
+
+    print "Data size: %d" % size
