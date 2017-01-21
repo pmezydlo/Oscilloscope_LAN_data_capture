@@ -6,6 +6,7 @@ import sys
 import time
 import os
 import numpy
+import matplotlib.pyplot as plot
 
 port = 5555
 osc_ip = "192.168.20.15"
@@ -59,7 +60,13 @@ for channel in chan:
     print "Data size: %d" % size
 
     data = numpy.frombuffer(rawdata, 'B')
-    data = data * -1 + 255
+    data = data + 255
     data = (data - 130.0 - volt_offset / volt_scale * 25) / 25 * volt_scale
     time = numpy.linspace(time_offset - 6 * time_scale, time_offset + 6 * time_scale, num = len(data))
-    
+   
+    plot.plot(time, data)
+    plot.title("Oscilloscope " + channel)
+    plot.ylabel("Voltage (V)")
+    plot.xlabel("Time [ms]")
+    plot.xlim(time[0], time[-1])
+    plot.savefig('plot_'+channel+'.png')
