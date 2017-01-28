@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>PHP Test</title>
+    </head>
+    <body>
+
+        <p>This is simple script</p></br>
+        
+        <?php
+ 
+            $dbh = pg_pconnect("dbname=measurement host=localhost user=pmezydlo password=pass1234") or die("Not  connected");
+
+            $query = "select * from measurements";
+            $result = pg_query($dbh, $query);
+
+            $num_fields = pg_num_fields($result);
+            $num_rows = pg_num_rows($result);
+
+            echo "<TABLE border width=1>";
+            echo "<TR>";
+
+            for ($fields = 0; $fields < $num_fields; $fields++) {
+                echo "<TH>";
+                echo pg_field_name($result, $fields);
+                echo "</TH>";
+            }
+
+            echo "</TR>";
+
+            for ($rows = 0; $rows < $num_rows; $rows++) {
+                echo "<TR>";
+                for ($fields = 0; $fields < $num_fields; $fields++) {
+                    echo "<TD>";
+                    echo pg_fetch_result($result, $rows, $fields);
+                    echo "</TD>";
+                }
+                echo "</TR>";
+            }
+    
+            echo "</TABLE>";
+
+        ?>
+
+    </body>
+</html>
