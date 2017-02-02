@@ -6,7 +6,6 @@ class usb:
     def __init__(self, dev_path):
         self.device = dev_path
         self.FILE = os.open(dev_path, os.O_RDWR)
-    
 
     def write(self, command):
         os.write(self.FILE, command)
@@ -78,3 +77,7 @@ class device:
 
     def read(self, command):
         self.dev.read(command)
+
+
+class oscilloscope(device):
+    def __init__ (self)
