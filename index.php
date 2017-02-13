@@ -1,11 +1,26 @@
 <html>
  <head>
   <title>PHP Test</title>
+<style>
+section {
+  float: left;
+}
+aside {
+  float: right;
+}
+
+</style>
+
  </head>
  <body>
 
-<p>This is simple script</p></br>
+<header>
+    <p>This is simple script</p></br>
+</header>
+<section>
+
 <?php
+
 
 $board_ip = "192.168.7.2";
 $dev_manu = "RIGOL";
@@ -46,7 +61,10 @@ for ($rows = 0; $rows < $num_rows; $rows++) {
 
 echo "</TABLE>";
 ?>
+</section>
 
+<aside>
+Register new device:
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
   IP: <input type="text" name="board_ip" value="<?php echo $board_ip;?>">
   <br><br>
@@ -60,7 +78,7 @@ echo "</TABLE>";
   <input type="radio" name="con_type" <?php if (isset($con_type) && $con_type=="rs232") echo "checked";?> value="rs232">RS232
   <br><br>
 <input type="submit" name="submit" value="Submit"></form>
-
+</aside>
 
 
  </body>
