@@ -4,10 +4,9 @@ import os
 import serial
 
 class rs232:
-    def __init__(self, dev_port, dev_baudrate, dev_timeout):
-        print "rs232 init"
+    def __init__(self, rs232_port, rs232_baudrate, rs232_timeout):
         try:
-            self.serial = serial.Serial(dev_port, baudrate=dev_baudrate, timeout=dev_timeout)
+            self.serial = serial.Serial(rs232_port, baudrate=rs232_baudrate, timeout=rs232_timeout)
         
             if not self.serial.isOpen():
                 print "serial is not open"
@@ -29,10 +28,9 @@ class rs232:
         self.serial.close()
 
 class usb:
-    def __init__(self, dev_path):
-        print "usb init"
-        self.device = dev_path
-        self.FILE = os.open(dev_path, os.O_RDWR)
+    def __init__(self, usb_path):
+        self.device = usb_path
+        self.FILE = os.open(usb_path, os.O_RDWR)
 
     def write(self, command):
         os.write(self.FILE, command)
@@ -40,7 +38,7 @@ class usb:
     def read(self, command):
         response = ""
         r_char = ""
-        self.write(command)
+        os.write(self.FILE, command)
 
         while r_char != "\n":
             r_char = os.read(self.FILE, 1)
@@ -51,11 +49,10 @@ class usb:
         self.FILE.close()
 
 class lan:
-    def __init__(self, dev_ip, dev_port):
-        print "lan init"
-        self.dev_port = dev_port
-        self.dev_ip = dev_ip
-        self.tn = Telnet(dev_ip, dev_port) 
+    def __init__(self, lan_ip, lan_port):
+        self.lan_port = lan_port
+        self.lan_ip = lan_ip
+        self.tn = Telnet(lan_ip, lan_port) 
 
     def read(self, command):
         wait = 1
@@ -83,26 +80,27 @@ class device:
 
         if self.con_type == "usb":
             if arg_len == 2:
-                self.dev_path = argv[1]
-                self.dev = usb(self.dev_path)
+                self.usb_path = argv[1]
+                self.dev = usb(self.usb_path)
             else:
                 print "bad arg list"
                 sys.exit("ERROR")
 
         elif self.con_type == "lan":
             if arg_len == 3:
-                self.dev_ip = argv[1]
-                self.dev_port = argv[2]
-                self.dev = lan(self.dev_ip, self.dev_port)
+                self.lan_ip = argv[1]
+                self.lan_port = argv[2]
+                self.dev = lan(self.lan_ip, self.lan_port)
             else:
                 print "bad arg list"
                 sys.exit("ERROR")
+
         elif self.con_type == "rs232":
             if arg_len == 4:
-                self.dev_port = argv[1]
-                self.dev_baudrate = argv[2]
-                self.dev_timeout = argv[3]
-                self.dev = rs232(self.dev_port, self.dev_baudrate, self.dev_timeout)
+                self.rs232_port = argv[1]
+                self.rs232_baudrate = argv[2]
+                self.rs232_timeout = argv[3]
+                self.dev = rs232(self.rs232_port, self.rs232_baudrate, self.rs232_timeout)
             else:
                 print "bad arg list"
                 sys.exit("ERROR");
@@ -132,5 +130,29 @@ class device:
         self.dev.close()
 
 class oscilloscope(device):
-    def __init__ (self):
+    def __init__ (self, *argv):
+        argd = argv[1:]
+        device.__init__(self, *argd)
+        self.channel = argv[0]
+
+    def get_active_channel(self):
+        
+        chan = []
+
+        for channel in range(1, self.channel+1):
+        
+            
+        channels = range(1, self.channel+1)
+        chan[:0] = 'CHAN%d' % (channels)
+ 
+        chan[:0] = 'MATH'
+        print chan
+
+        for channel in chan: 
+            print channel
+
+    def get_time(self):
+        pass
+
+    def plot(self, file_type):
         pass
