@@ -40,6 +40,8 @@ class usb(object):
     def write(self, command):
         os.write(self.FILE, command)
 
+    
+
   #  def read(self, command):
    #     response = ""
     #    r_char = ""

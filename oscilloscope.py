@@ -1,5 +1,5 @@
 from oscilloscope_functions import oscilloscope
-
+from psql_base_interfaces
 
 lan_port = 5555
 lan_osc_ip = "192.168.20.15"
